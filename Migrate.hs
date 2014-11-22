@@ -49,10 +49,11 @@ type Page = (PageName, PageContent, [PageLink])
 type PageList = [Page]
 
 notDiffs p = not (isSuffixOf ".diffs" p)
+notLogs p = not (isSuffixOf ".log" p)
 notDots p = not (p `elem` [".", ".."])
 
 pageFilter :: [String] -> [String]
-pageFilter = filter (\x -> notDots x && notDiffs x) 
+pageFilter = filter (\x -> notDots x && notDiffs x && notLogs x)
 
 listPages :: FilePath -> IO [FilePath]
 listPages = liftM pageFilter . getDirectoryContents
